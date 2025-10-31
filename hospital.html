@@ -1,0 +1,144 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hospital 24*7 services</title>
+  <style>
+    :root{--bg:#f6f8fb;--card:#fff;--muted:#6b7280;--accent:#0f6fbd}
+    *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{margin:0;background:var(--bg);color:#0b1220}
+    header{padding:22px 24px;display:flex;gap:12px;align-items:center}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;background:linear-gradient(135deg,#0f6fbd,#2eb8a9);border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700}
+    .title{font-size:18px;font-weight:600}
+    main{padding:20px 24px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+    .card h3{margin:0 0 8px 0}
+    .card p{margin:0 0 12px 0;color:var(--muted)}
+    .preview{height:280px;border-radius:8px;overflow:hidden;border:1px solid #eef2f7}
+    .btnrow{display:flex;gap:8px;margin-top:12px}
+    button{background:#111827;color:#fff;border:0;padding:10px 12px;border-radius:8px;cursor:pointer}
+    .secondary{background:#e6eefc;color:#0f6fbd}
+    .small{padding:8px 10px;border-radius:6px;font-size:14px}
+    footer{padding:20px;text-align:center;color:var(--muted);font-size:13px}/* template full-screen area */
+.template-view{position:fixed;inset:0;background:rgba(3,7,18,0.6);display:none;align-items:center;justify-content:center;padding:20px}
+.frame{width:100%;max-width:980px;height:80vh;background:#fff;border-radius:12px;overflow:auto;box-shadow:0 20px 60px rgba(2,6,23,0.45)}
+.frame .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid #eef2f7}
+.frame iframe{width:100%;height:calc(100% - 56px);border:0}
+
+/* small responsive tweaks */
+@media (max-width:420px){.preview{height:200px}}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">H</div>
+      <div>
+        <div class="title">Hospital</div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="grid">
+      <div class="card">
+        <h3>Option 1 — "ClinicCare" (Minimal)</h3>
+        <div class="preview" id="preview1"></div>
+        <div class="btnrow">
+          <button class="small" onclick="openTemplate('clinic')">Open</button>
+          <button class="small secondary" onclick="downloadTemplate('clinic')">Download HTML</button>
+        </div>
+      </div><div class="card">
+    <h3>Option 2 — "Metro Hospital" (Modern)</h3>
+    <div class="preview" id="preview2"></div>
+    <div class="btnrow">
+      <button class="small" onclick="openTemplate('metro')">Open</button>
+      <button class="small secondary" onclick="downloadTemplate('metro')">Download HTML</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Option 3 — "24/7 Emergency" (Focused)</h3>
+    <div class="preview" id="preview3"></div>
+    <div class="btnrow">
+      <button class="small" onclick="openTemplate('emergency')">Open</button>
+      <button class="small secondary" onclick="downloadTemplate('emergency')">Download HTML</button>
+    </div>
+  </div>
+
+</div>
+
+    <div class="frame" role="dialog" aria-modal="true">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <strong id="tv-title">Template</strong>
+          <small id="tv-desc" style="color:var(--muted)"></small>
+        </div>
+        <div>
+          <button class="small secondary" id="downloadInside">Download HTML</button>
+          <button class="small" onclick="closeViewer()">Close</button>
+        </div>
+      </div>
+      <iframe id="tv-iframe" sandbox></iframe>
+    </div>
+  </div>  <script>
+    // Template sources (self-contained HTML strings)
+    const templates = {
+      clinic: `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ClinicCare — Minimal Clinic</title><style>body{font-family:Inter,Arial;margin:0;color:#0b1220;background:#f8fafc}header{background:linear-gradient(90deg,#0f6fbd,#2eb8a9);color:#fff;padding:26px;border-radius:0 0 18px 18px}header h1{margin:0;font-size:20px}main{padding:22px}section{background:#fff;padding:18px;border-radius:12px;margin-bottom:14px;box-shadow:0 8px 20px rgba(15,23,42,0.06)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}button{background:#0f6fbd;color:#fff;border:0;padding:10px;border-radius:8px;cursor:pointer}footer{padding:18px;text-align:center;color:#6b7280}</style></head><body><header><h1>ClinicCare</h1></header><main><section><h2>Welcome to ClinicCare</h2><p>Your local trusted clinic for family healthcare. We provide general consultations, diagnostics and follow-ups.</p><p><button onclick="alert('Appointment requested — demo only')">Request Appointment</button></p></section><section><h3>Services</h3><div class="grid"><div><strong>General Medicine</strong><p style="color:#6b7280">Consultation & prescriptions</p></div><div><strong>Pediatrics</strong><p style="color:#6b7280">Child care & immunizations</p></div><div><strong>Diagnostics</strong><p style="color:#6b7280">Blood tests & imaging</p></div></div></section><section><h3>Our Doctors</h3><div class="grid"><div><strong>Dr. A. Kumar</strong><p style="color:#6b7280">MD — General Medicine</p></div><div><strong>Dr. N. Priya</strong><p style="color:#6b7280">MBBS — Pediatrics</p></div></div></section></main><footer>Contact: +91 98765 43210 • 123 Health St, YourCity</footer></body></html>`,metro: `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Metro Hospital — Modern</title><style>:root{--accent:#0f6fbd}body{margin:0;font-family:Inter,Arial;background:#f4f7fb;color:#0b1220}nav{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;background:#fff;border-bottom:1px solid #eef2f7}nav .brand{font-weight:700}header{padding:34px 22px;background:linear-gradient(90deg,rgba(15,111,189,0.08),rgba(46,184,169,0.05))}header h1{margin:0}main{padding:22px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}card{}</style></head><body><nav><div class="brand">Metro Hospital</div><div><a href="#services">Services</a> • <a href="#doctors">Doctors</a> • <a href="#appt">Appointment</a></div></nav><header><h1>World-class care, close to home</h1><p style="color:#6b7280">Advanced departments, modern equipment and compassionate staff.</p></header><main><section id="services" style="margin-bottom:14px;background:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 20px rgba(2,6,23,0.04)"><h2>Our Services</h2><div class="cards"><div style="padding:12px;border-radius:10px;border:1px solid #eef2f7"><strong>Cardiology</strong><p style="color:#6b7280">OPD, Cath lab & rehab</p></div><div style="padding:12px;border-radius:10px;border:1px solid #eef2f7"><strong>Orthopedics</strong><p style="color:#6b7280">Joint & bone care</p></div><div style="padding:12px;border-radius:10px;border:1px solid #eef2f7"><strong>Neurology</strong><p style="color:#6b7280">Stroke & neuro care</p></div></div></section>
+
+<section id="doctors" style="margin-bottom:14px;background:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 20px rgba(2,6,23,0.04)"><h2>Meet Our Team</h2><div style="display:flex;gap:12px;flex-wrap:wrap"><div style="flex:1;min-width:180px"><strong>Dr. Ravi Menon</strong><p style="color:#6b7280">Chief Surgeon</p></div><div style="flex:1;min-width:180px"><strong>Dr. Shalini Iyer</strong><p style="color:#6b7280">Head — Pediatrics</p></div></div></section><section id="appt" style="background:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 20px rgba(2,6,23,0.04)"><h2>Book Appointment</h2>
+<form onsubmit="event.preventDefault();alert('Demo appointment sent — add your backend later')"><div style="display:flex;gap:8px;flex-wrap:wrap"><input placeholder="Full name" required style="flex:1;padding:10px;border-radius:8px;border:1px solid #e6eefc"><input placeholder="Phone" required style="flex:1;padding:10px;border-radius:8px;border:1px solid #e6eefc"></div><div style="margin-top:10px"><button type="submit" style="padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;border:0">Request Appointment</button></div></form></section></main><footer style="padding:18px;text-align:center;color:#6b7280">Metro Hospital • 24/7 • +91 90000 00000</footer></body></html>` ,emergency: `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>24/7 Emergency — Rapid Care</title><style>body{margin:0;font-family:Inter,Arial;background:#fff;color:#0b1220}header{background:#111827;color:#fff;padding:20px;display:flex;align-items:center;justify-content:space-between}header .call{font-weight:700}main{padding:18px}section{padding:14px;border-radius:10px;margin-bottom:12px}banner{display:block}button{background:#dc2626;color:#fff;border:0;padding:10px;border-radius:8px;cursor:pointer}small{color:#6b7280}</style></head><body><header><div><strong>RapidCare ER</strong><div style="font-size:13px;color:#cbd5e1">Immediate attention when it matters</div></div><div class="call">EMERGENCY: +91 11223 44556</div></header><main><section style="background:#fff;border:1px solid #f3f4f6"><h2>Immediate Care</h2><p style="color:#6b7280">We handle trauma, cardiac arrest, and urgent surgeries with a dedicated response team.</p><p><button onclick="alert('Calling emergency — demo')">Call Now</button></p></section>
+
+<section style="background:#f8fafc"><h3>Quick Actions</h3><ul style="color:#6b7280"><li>Locate nearest ER</li><li>Request Ambulance</li><li>Check wait-times (demo)</li></ul></section><section style="background:#fff;border:1px solid #f3f4f6"><h3>Directions</h3><p style="color:#6b7280">123 Emergency Rd • Open 24/7</p></section></main><footer style="padding:18px;text-align:center;color:#6b7280">RapidCare — Trusted emergency services</footer></body></html>`
+    };// generate simple previews using blobs
+function makePreview(id, html){
+  const blob = new Blob([html],{type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const iframe = document.createElement('iframe');
+  iframe.src = url; iframe.style.width='100%'; iframe.style.height='100%'; iframe.style.border='0';
+  const node = document.getElementById(id);
+  node.appendChild(iframe);
+}
+
+makePreview('preview1',templates.clinic);
+makePreview('preview2',templates.metro);
+makePreview('preview3',templates.emergency);
+
+// viewer logic
+const viewer = document.getElementById('viewer');
+const tvIframe = document.getElementById('tv-iframe');
+const tvTitle = document.getElementById('tv-title');
+const tvDesc = document.getElementById('tv-desc');
+const downloadInside = document.getElementById('downloadInside');
+
+function openTemplate(key){
+  const html = templates[key];
+  const blob = new Blob([html],{type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  tvIframe.src = url;
+  tvTitle.textContent = (key==='clinic'?'ClinicCare — Minimal':key==='metro'?'Metro Hospital — Modern':'RapidCare — Emergency');
+  tvDesc.textContent = '';
+  downloadInside.onclick = ()=>{downloadString(html, tvTitle.textContent.replace(/\s+/g,'_') + '.html')};
+  viewer.style.display = 'flex';
+}
+function closeViewer(){ viewer.style.display='none'; tvIframe.src=''; }
+
+function downloadString(str, filename){
+  const blob = new Blob([str],{type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function downloadTemplate(key){ downloadString(templates[key], (key+'_hospital_template.html')); }
+
+  </script>
+</body>
+</html>
